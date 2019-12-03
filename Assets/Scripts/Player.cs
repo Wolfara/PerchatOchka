@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
         if (speed < maxSpeed)
             speed += 0.1f * Time.deltaTime;
         forceUp += transform.up * 7;
-        Debug.Log(glove.localEulerAngles.y);
+        //Debug.Log(glove.localEulerAngles.z);
         if (ukPalec1.localEulerAngles.x <= 310 && ukPalec2.localEulerAngles.x <= 290)
             if (mizinec1.localEulerAngles.x <= 320 && mizinec2.localEulerAngles.x <= 320)
                 if (midPalec1.localEulerAngles.x <= 300 && midPalec2.localEulerAngles.x <= 290)
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
                         else if (prisel)
                             prisel = false;
                     }
-        if (glove.localEulerAngles.y >= 25 &&glove.localEulerAngles.y<200&& !jump)
+        if (glove.localEulerAngles.z >= 200 && !jump)
         {
             jump = true;
         }
