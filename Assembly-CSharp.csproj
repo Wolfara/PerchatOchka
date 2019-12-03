@@ -62,6 +62,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Perchatka\Senso\Body.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Examples\SensoBodyExample.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Examples\SensoHandExample.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Hand.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Helpers\SensoBodyJoint.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Receiver\BatteryData.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Receiver\BodyData.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Receiver\HandData.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Receiver\NetData.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Receiver\NetworkThread.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Receiver\TCPThread.cs" />
+    <Compile Include="Assets\Perchatka\Senso\Receiver\UDPThread.cs" />
+    <Compile Include="Assets\Perchatka\Senso\SensoBaseController.cs" />
+    <Compile Include="Assets\Perchatka\Senso\SensoBodyController.cs" />
+    <Compile Include="Assets\Perchatka\Senso\SensoHandsController.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\SpawnObst.cs" />
     <Reference Include="Unity.Timeline.Editor">
