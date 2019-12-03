@@ -1849,6 +1849,7 @@ MonoBehaviour:
   nnPalec1: {fileID: 0}
   nnPalec2: {fileID: 0}
   glove: {fileID: 0}
+  bPalec: {fileID: 0}
 --- !u!54 &318235786
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4079,15 +4080,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4793515804066402, guid: b37d9ca5bef5ecf45a8e1488d28db5a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 112.05
       objectReference: {fileID: 0}
     - target: {fileID: 4793515804066402, guid: b37d9ca5bef5ecf45a8e1488d28db5a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 46.3
       objectReference: {fileID: 0}
     - target: {fileID: 4793515804066402, guid: b37d9ca5bef5ecf45a8e1488d28db5a3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 67.93
       objectReference: {fileID: 0}
     - target: {fileID: 4793515804066402, guid: b37d9ca5bef5ecf45a8e1488d28db5a3, type: 3}
       propertyPath: m_LocalRotation.x
@@ -5771,7 +5772,7 @@ GameObject:
   - component: {fileID: 1351022052}
   - component: {fileID: 1351022051}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Bonus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5785,7 +5786,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351022050}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2

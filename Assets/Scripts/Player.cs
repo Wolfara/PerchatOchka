@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public int deathsByUp = 0;
     [HideInInspector]
     public int deathsByDown = 0;
-    public Transform mizinec1, ukPalec1, ukPalec2, mizinec2, midPalec1, midPalec2, nnPalec1, nnPalec2, glove;
+    public Transform mizinec1, ukPalec1, ukPalec2, mizinec2, midPalec1, midPalec2, nnPalec1, nnPalec2, glove, bPalec;
     bool leftActive = false, rightActive = false, jumpA = false;
     // Start is called before the first frame update
     void Start()
@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
         if (speed < maxSpeed)
             speed += 0.1f * Time.deltaTime;
         forceUp += transform.up * 7;
-        Debug.Log(glove.localEulerAngles.z);
+        Debug.Log(bPalec.localEulerAngles.x);
         if (ukPalec1.localEulerAngles.x <= 320 && ukPalec2.localEulerAngles.x <= 285)
             if (mizinec1.localEulerAngles.x <= 320 && mizinec2.localEulerAngles.x <= 315)
                 if (midPalec1.localEulerAngles.x <= 305 && midPalec2.localEulerAngles.x <= 290)
@@ -60,11 +60,11 @@ public class Player : MonoBehaviour
         {
             rightActive = false;
         }
-        if (ukPalec1.localEulerAngles.z <= 18)
+        if (bPalec.localEulerAngles.z <= 20)
         {
             inLeft = true;
         }
-        if (ukPalec1.localEulerAngles.z >= 23)
+        if (bPalec.localEulerAngles.z >= 25)
             leftActive = false;
         if (Input.GetKeyDown(KeyCode.A) && path > 1)
         {
@@ -86,11 +86,11 @@ public class Player : MonoBehaviour
         {
             jump = true;
         }
-        if (glove.localEulerAngles.z >= 200 && !jump&& glove.localEulerAngles.z < 260)
+        if (glove.localEulerAngles.z >= 200 && !jump&& glove.localEulerAngles.z < 260&&!jumpA)
         {
             jump = true;
         }
-        if (jump && !jumpA)
+        if (jump && !jumpA && !prisel)
         {
             transform.position += new Vector3(0,3,0);
             jumpA = true;
@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other, other);
+        //Debug.Log(other, other);
         if (other.tag == "ObstLR")
         {
             Debug.Log("Life-");
