@@ -40,10 +40,10 @@ public class Player : MonoBehaviour
         if (speed < maxSpeed)
             speed += 0.1f * Time.deltaTime;
         forceUp += transform.up * 7;
-        //Debug.Log(glove.localEulerAngles.z);
-        if (ukPalec1.localEulerAngles.x <= 310 && ukPalec2.localEulerAngles.x <= 290)
-            if (mizinec1.localEulerAngles.x <= 320 && mizinec2.localEulerAngles.x <= 320)
-                if (midPalec1.localEulerAngles.x <= 300 && midPalec2.localEulerAngles.x <= 290)
+        Debug.Log(glove.localEulerAngles.z);
+        if (ukPalec1.localEulerAngles.x <= 320 && ukPalec2.localEulerAngles.x <= 285)
+            if (mizinec1.localEulerAngles.x <= 320 && mizinec2.localEulerAngles.x <= 315)
+                if (midPalec1.localEulerAngles.x <= 305 && midPalec2.localEulerAngles.x <= 290)
                     if (nnPalec1.localEulerAngles.x <= 315 && nnPalec2.localEulerAngles.x <= 315)
                     {
                         if (!prisel)
@@ -51,11 +51,8 @@ public class Player : MonoBehaviour
                         else if (prisel)
                             prisel = false;
                     }
-        if (glove.localEulerAngles.z >= 200 && !jump)
-        {
-            jump = true;
-        }
-        if (mizinec1.localEulerAngles.z >= 345)
+        
+        if (mizinec1.localEulerAngles.z >= 342)
         {
             inRight = true;
         }
@@ -89,16 +86,19 @@ public class Player : MonoBehaviour
         {
             jump = true;
         }
+        if (glove.localEulerAngles.z >= 200 && !jump&& glove.localEulerAngles.z < 260)
+        {
+            jump = true;
+        }
         if (jump && !jumpA)
         {
-            rb.AddForce(forceUp, ForceMode.Impulse);
+            transform.position += new Vector3(0,3,0);
             jumpA = true;
             jump = false;
         }
         if (prisel)
         {
             GetComponent<BoxCollider>().size = new Vector3(1, 1, 1);
-            //transform.position += new Vector3(0, 0.3f, 0);
         }
         else if (!prisel)
         {
