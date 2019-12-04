@@ -21,14 +21,17 @@ public class Player : MonoBehaviour
     public int deathsByDown = 0;
     public Transform mizinec1, ukPalec1, ukPalec2, mizinec2, midPalec1, midPalec2, nnPalec1, nnPalec2, glove, bPalec;
     bool leftActive = false, rightActive = false, jumpA = false;
-    public Text hp;
+    public Text hp,calibrating;
+    public GameObject calibratingGO;
     public int bonus = 0;
     public GameObject dead;
     float minMizinec, maxMizinec, deltaMizinec;
-    float minBPalec, maxBPalec, deltaBPalec;
-    bool gameStarted = false;
-    bool mizinecCalibrated = false, bPalecCalibrated = false, kulakCalibrated = false;
-    float minUkPalecK1, minUkPalecK2, minMidPalecK1, minMidPalecK2, minNNPalecK1, minNNPalecK2, minMizinecK1, minMizinecK2;
+    float minBPalec=361, maxBPalec, deltaBPalec;
+    public bool gameStarted = false;
+    public bool mizinecCalibrated = false, bPalecCalibrated = false, kulakCalibrated = false, kulakCalibrating;
+    float minUkPalecK1 = 361, minUkPalecK2 = 361, minMidPalecK1 = 361, minMidPalecK2 = 361, minNNPalecK1 = 361, minNNPalecK2 = 361, minMizinecK1 = 361, minMizinecK2 = 361;
+    public float timer = 0;
+    bool bPalecCalibrating=false, mizinecCalibrating = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,7 +73,7 @@ public class Player : MonoBehaviour
                 if (maxMizinec > minMizinec)
                     maxMizinec = mizinec1.localEulerAngles.z;
             }
-            if (mizinec1.localEulerAngles.z <= minMizinec-1)
+            if (mizinec1.localEulerAngles.z <= minMizinec - 1)
             {
                 rightActive = false;
             }
@@ -80,7 +83,7 @@ public class Player : MonoBehaviour
                 if (maxBPalec < minBPalec)
                     maxBPalec = bPalec.localEulerAngles.z;
             }
-            if (bPalec.localEulerAngles.x >= minBPalec+1)
+            if (bPalec.localEulerAngles.x >= minBPalec + 1)
                 leftActive = false;
             if (Input.GetKeyDown(KeyCode.A) && path > 1)
             {
@@ -150,50 +153,117 @@ public class Player : MonoBehaviour
         }
         if (!mizinecCalibrated)
         {
-            for (float i = 0; i < 2;)
-                if (mizinec1.localEulerAngles.z > 340.5)
+            if (timer <= 5)
+            {
+                calibrating.text = "Калибровка мизинца";
+                if (mizinec1.localEulerAngles.z > 337.5)
                 {
-                    i += 1 * Time.deltaTime;
-                    minMizinec = mizinec1.localEulerAngles.z;
-                    if (i >= 1.5)
-                    {
-                        mizinecCalibrated = true;
-                        break;
-                    }
+                    timer += 1 * Time.deltaTime;
+                    if (mizinec1.localEulerAngles.x > minMizinec)
+                        minMizinec = mizinec1.localEulerAngles.z;
+                    mizinecCalibrating = true;
                 }
-        }
-
-        if (!bPalecCalibrated)
-        {
-            for (float i = 0; i < 2;)
-                if (bPalec.localEulerAngles.x < 55)
+                if (!mizinecCalibrated && !mizinecCalibrating)
+                    timer = 0;
+                else if (mizinecCalibrating && timer >= 5)
                 {
-                    i += 1 * Time.deltaTime;
-                    minBPalec = bPalec.localEulerAngles.x;
-                    if (i >= 1.5)
-                    {
-                        bPalecCalibrated = true;
-                        break;
-                    }
+                    mizinecCalibrated = true;
+                    timer = 0;
                 }
+            }
         }
-        if (!kulakCalibrated)
+        if (!bPalecCalibrated && mizinecCalibrated)
         {
-            for (float i = 0; i < 2;)
-                if (ukPalec1.localEulerAngles.x <= 325 && ukPalec2.localEulerAngles.x <= 310 && mizinec1.localEulerAngles.x < 345 && mizinec2.localEulerAngles.x < 347)
-                    if (midPalec1.localEulerAngles.x < 312 && midPalec2.localEulerAngles.x < 310 && nnPalec1.localEulerAngles.x < 312 && nnPalec2.localEulerAngles.x < 290)
-                    {
-                        i += 1 * Time.deltaTime;
-                        minUkPalecK1 = ukPalec1.localEulerAngles.x; minUkPalecK2 = ukPalec2.localEulerAngles.x;
-                        minMidPalecK1 = midPalec1.localEulerAngles.x; minMidPalecK2 = midPalec2.localEulerAngles.x;
-                        minNNPalecK1 = nnPalec1.localEulerAngles.x; minNNPalecK2 = nnPalec2.localEulerAngles.x;
-                        minMizinecK1 = mizinec1.localEulerAngles.x; minMizinecK2 = mizinec2.localEulerAngles.x;
-                        if (i >= 1.5)
+            if (timer <= 5)
+            {
+                Debug.Log(bPalec.localEulerAngles.x);
+                calibrating.text = "Калибровка большого пальца";
+                if (bPalec.localEulerAngles.x < 37)
+                {
+                    timer += 1 * Time.deltaTime;
+                    if (bPalec.localEulerAngles.x < minBPalec)
+                        minBPalec = bPalec.localEulerAngles.x;
+                    bPalecCalibrating = true;
+                }
+                if (!bPalecCalibrated && !bPalecCalibrating)
+                    timer = 0;
+                else if (bPalecCalibrating && timer >= 5)
+                {
+                    bPalecCalibrated = true;
+                    timer = 0;
+                }
+            }
+        }
+        if (!kulakCalibrated&&bPalecCalibrated&&mizinecCalibrated)
+        {
+            if (ukPalec1.localEulerAngles.x <= minUkPalecK1 && ukPalec2.localEulerAngles.x <= minUkPalecK2)
+                if (mizinec1.localEulerAngles.x <= minMizinecK2 /*&& mizinec2.localEulerAngles.x <= minMizinecK1*/)
+                    if (midPalec1.localEulerAngles.x <= minMidPalecK1 && midPalec2.localEulerAngles.x <= minMidPalecK2)
+                        if (nnPalec1.localEulerAngles.x <= minNNPalecK1 /*&& nnPalec2.localEulerAngles.x <= minNNPalecK2*/)
                         {
-                            kulakCalibrated = true;
-                            break;
+                            Debug.Log("a");
                         }
+            if (timer <= 5)
+            {
+                calibrating.text = "Калибровка кулака";
+                if (ukPalec1.localEulerAngles.x < 325 && ukPalec2.localEulerAngles.x <= 310 && mizinec1.localEulerAngles.x < 345 /*&& mizinec2.localEulerAngles.x < 347*/)
+                    if (midPalec1.localEulerAngles.x < 312 && midPalec2.localEulerAngles.x < 310 && nnPalec1.localEulerAngles.x < 327)
+                    {
+                        timer += 1 * Time.deltaTime;
+                        if (ukPalec1.localEulerAngles.x < minUkPalecK1)
+                        {
+                            minUkPalecK1 = ukPalec1.localEulerAngles.x;
+                            Debug.Log("1");
+                        }
+                        if (ukPalec2.localEulerAngles.x < minUkPalecK2)
+                        {
+                            minUkPalecK2 = ukPalec2.localEulerAngles.x;
+                            Debug.Log("2");
+                        }
+                        if (midPalec1.localEulerAngles.x < minMidPalecK1)
+                        {
+                            minMidPalecK1 = midPalec1.localEulerAngles.x;
+                            Debug.Log("3");
+                        }
+                        if (midPalec2.localEulerAngles.x < minMidPalecK2)
+                        {
+                            minMidPalecK2 = midPalec2.localEulerAngles.x;
+                            Debug.Log("4");
+                        }
+                        if (nnPalec1.localEulerAngles.x < minNNPalecK1)
+                        {
+                            minNNPalecK1 = nnPalec1.localEulerAngles.x;
+                            Debug.Log("5");
+                        }
+                        //if (nnPalec2.localEulerAngles.x < minNNPalecK2)
+                        //    {
+                        //        minNNPalecK2 = nnPalec2.localEulerAngles.x;
+                        //        Debug.Log("6");
+                        //    }
+                        if (mizinec1.localEulerAngles.x < minMizinecK1)
+                        {
+                            minMizinecK1 = mizinec1.localEulerAngles.x;
+                            Debug.Log("7");
+                        }
+                        //if (mizinec2.localEulerAngles.x < minMizinecK2)
+                        //    {
+                        //        minMizinecK2 = mizinec2.localEulerAngles.x;
+                        //        Debug.Log("8");
+                        //    }
+                        /*timer null*/
+                        kulakCalibrating = true;
+
                     }
+
+                //}
+                if (!kulakCalibrated && !kulakCalibrating)
+                    timer = 0;
+                else if (kulakCalibrating && timer >= 5)
+                {
+                    kulakCalibrated = true;
+                    calibratingGO.SetActive(false);
+                }
+            }
         }
     }
     public void OnTriggerEnter(Collider other)
