@@ -13,26 +13,20 @@ public class Player : MonoBehaviour
     bool inLeft = false, inRight = false, jump = false;
     [HideInInspector]
     public int lifes;
-    [HideInInspector]
-    public int deathsByLR = 0;
-    [HideInInspector]
-    public int deathsByUp = 0;
-    [HideInInspector]
-    public int deathsByDown = 0;
     public Transform mizinec1, ukPalec1, ukPalec2, mizinec2, midPalec1, midPalec2, nnPalec1, nnPalec2, glove, bPalec;
     bool leftActive = false, rightActive = false, jumpA = false;
-    public Text hp,calibrating;
+    public Text hp, calibrating;
     public GameObject calibratingGO;
     public int bonus = 0;
     public GameObject dead;
     float minMizinec, maxMizinec, deltaMizinec;
-    float minBPalec=361, maxBPalec, deltaBPalec;
+    float minBPalec = 361, maxBPalec, deltaBPalec;
     public bool gameStarted = false;
     public bool mizinecCalibrated = false, bPalecCalibrated = false, kulakCalibrated = false, kulakCalibrating;
     float minUkPalecK1 = 361, minUkPalecK2 = 361, minMidPalecK1 = 361, minMidPalecK2 = 361, minNNPalecK1 = 361, minNNPalecK2 = 361, minMizinecK1 = 361, minMizinecK2 = 361;
     public float timer = 0;
-    bool bPalecCalibrating=false, mizinecCalibrating = false;
-    // Start is called before the first frame update
+    bool bPalecCalibrating = false, mizinecCalibrating = false;
+
     void Start()
     {
         lifes = 3;
@@ -44,7 +38,6 @@ public class Player : MonoBehaviour
         prisel = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (gameStarted)
@@ -55,11 +48,11 @@ public class Player : MonoBehaviour
             if (speed < maxSpeed)
                 speed += 0.1f * Time.deltaTime;
             forceUp += transform.up * 7;
-            Debug.Log(nnPalec2.localEulerAngles.x);
-            if (ukPalec1.localEulerAngles.x <= minUkPalecK1 && ukPalec2.localEulerAngles.x <= minUkPalecK2)
-                if (mizinec1.localEulerAngles.x <= minMizinecK2 && mizinec2.localEulerAngles.x <= minMizinecK1)
-                    if (midPalec1.localEulerAngles.x <= minMidPalecK1 && midPalec2.localEulerAngles.x <= minMidPalecK2)
-                        if (nnPalec1.localEulerAngles.x <= minNNPalecK1 && nnPalec2.localEulerAngles.x <= minNNPalecK2)
+            Debug.Log(deltaBPalec);
+            if (ukPalec1.localEulerAngles.x - 1 <= minUkPalecK1 && ukPalec2.localEulerAngles.x - 1 <= minUkPalecK2)
+                if (mizinec1.localEulerAngles.x - 1 <= minMizinecK2)
+                    if (midPalec1.localEulerAngles.x - 1 <= minMidPalecK1 && midPalec2.localEulerAngles.x - 1 <= minMidPalecK2)
+                        if (nnPalec1.localEulerAngles.x - 1 <= minNNPalecK1)
                         {
                             if (!prisel)
                                 prisel = true;
@@ -67,22 +60,30 @@ public class Player : MonoBehaviour
                                 prisel = false;
                         }
 
-            if (mizinec1.localEulerAngles.z >= minMizinec)
+            if (mizinec1.localEulerAngles.z + 1 >= minMizinec)
             {
                 inRight = true;
-                if (maxMizinec > minMizinec)
+                if (mizinec1.localEulerAngles.z > maxMizinec)
                     maxMizinec = mizinec1.localEulerAngles.z;
+                if (deltaMizinec-10 >= 7)
+                    minMizinec += 3;
             }
             if (mizinec1.localEulerAngles.z <= minMizinec - 1)
             {
                 rightActive = false;
             }
-            if (bPalec.localEulerAngles.x <= minBPalec)
+            if (minBPalec < 200 && bPalec.localEulerAngles.x - 1 <= minBPalec || minBPalec > 200 && bPalec.localEulerAngles.x + 1 >= minBPalec)
             {
                 inLeft = true;
-                if (maxBPalec < minBPalec)
-                    maxBPalec = bPalec.localEulerAngles.z;
+                if (bPalec.localEulerAngles.x < maxBPalec)
+                    maxBPalec = bPalec.localEulerAngles.x;
+                if (deltaBPalec-10 >= 7)
+                    minBPalec += 3;
             }
+            if (minBPalec - maxBPalec > deltaBPalec)
+                deltaBPalec = minBPalec - maxBPalec;
+            if (maxMizinec - minMizinec > deltaMizinec)
+                deltaMizinec = maxMizinec - minMizinec;
             if (bPalec.localEulerAngles.x >= minBPalec + 1)
                 leftActive = false;
             if (Input.GetKeyDown(KeyCode.A) && path > 1)
@@ -156,7 +157,7 @@ public class Player : MonoBehaviour
             if (timer <= 5)
             {
                 calibrating.text = "Калибровка мизинца";
-                if (mizinec1.localEulerAngles.z > 337.5)
+                if (mizinec1.localEulerAngles.z > 338)
                 {
                     timer += 1 * Time.deltaTime;
                     if (mizinec1.localEulerAngles.x > minMizinec)
@@ -178,7 +179,7 @@ public class Player : MonoBehaviour
             {
                 Debug.Log(bPalec.localEulerAngles.x);
                 calibrating.text = "Калибровка большого пальца";
-                if (bPalec.localEulerAngles.x < 37)
+                if (bPalec.localEulerAngles.x < 29 || bPalec.localEulerAngles.x < 360 && bPalec.localEulerAngles.x > 300)
                 {
                     timer += 1 * Time.deltaTime;
                     if (bPalec.localEulerAngles.x < minBPalec)
@@ -194,7 +195,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        if (!kulakCalibrated&&bPalecCalibrated&&mizinecCalibrated)
+        if (!kulakCalibrated && bPalecCalibrated && mizinecCalibrated)
         {
             if (ukPalec1.localEulerAngles.x <= minUkPalecK1 && ukPalec2.localEulerAngles.x <= minUkPalecK2)
                 if (mizinec1.localEulerAngles.x <= minMizinecK2 /*&& mizinec2.localEulerAngles.x <= minMizinecK1*/)
@@ -206,8 +207,8 @@ public class Player : MonoBehaviour
             if (timer <= 5)
             {
                 calibrating.text = "Калибровка кулака";
-                if (ukPalec1.localEulerAngles.x < 325 && ukPalec2.localEulerAngles.x <= 310 && mizinec1.localEulerAngles.x < 345 /*&& mizinec2.localEulerAngles.x < 347*/)
-                    if (midPalec1.localEulerAngles.x < 312 && midPalec2.localEulerAngles.x < 310 && nnPalec1.localEulerAngles.x < 327)
+                if (ukPalec1.localEulerAngles.x < 326 && ukPalec2.localEulerAngles.x <= 311 && mizinec1.localEulerAngles.x < 346)
+                    if (midPalec1.localEulerAngles.x < 313 && midPalec2.localEulerAngles.x < 311 && nnPalec1.localEulerAngles.x < 328)
                     {
                         timer += 1 * Time.deltaTime;
                         if (ukPalec1.localEulerAngles.x < minUkPalecK1)
@@ -274,14 +275,12 @@ public class Player : MonoBehaviour
             Debug.Log("Life-");
             speed = minSpeed;
             lifes--;
-            deathsByLR++;
             Destroy(other);
         }
         if (other.tag == "ObstUp")
         {
             Debug.Log("Life-");
             lifes--;
-            deathsByUp++;
             Destroy(other);
         }
         if (other.tag == "Platform")
@@ -294,5 +293,4 @@ public class Player : MonoBehaviour
             Destroy(other);
         }
     }
-
 }
