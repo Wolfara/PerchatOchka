@@ -2221,6 +2221,10 @@ MonoBehaviour:
   calibratingGO: {fileID: 419699908}
   bonus: 0
   dead: {fileID: 2072805979}
+  minMizinec: 0
+  maxMizinec: 0
+  minBPalec: 0
+  maxBPalec: 0
   deltaMizinec: 0
   deltaBPalec: 0
   deltaJump: 0
@@ -2228,6 +2232,8 @@ MonoBehaviour:
   maxJump: 0
   timer: 0
   cam: {fileID: 963194225}
+  badMizinecR: 0
+  badBPalecR: 0
 --- !u!54 &318235786
 Rigidbody:
   m_ObjectHideFlags: 0
