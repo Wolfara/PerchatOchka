@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     bool bPalecCalibrating = false, mizinecCalibrating = false;
     public GameObject cam;
     public int badMizinecR = 0, badBPalecR = 0;
+    int bPUB90 = 300, mizSdv = 334, lock360 = 360;
+    int mid2K = 312, uk2K = 312, ukK = 327, midK = 314, nnK = 329, mid1K = 347;
     void Start()
     {
         lifes = 3;
@@ -49,11 +51,11 @@ public class Player : MonoBehaviour
             ubp.text = "45";
         if (minBPalec >= 300)
             ubp.text = "80";
-        if (minMizinec >= 332 && minMizinec < 335)
+        if (minMizinec >= 334 && minMizinec < 337)
             um.text = "10";
-        if (minMizinec >= 335 && minMizinec < 338)
+        if (minMizinec >= 337 && minMizinec < 340)
             um.text = "20";
-        if (minMizinec >= 338)
+        if (minMizinec >= 340)
             um.text = "45";
         if (minJump >= 300)
             up.text = "45";
@@ -91,7 +93,7 @@ public class Player : MonoBehaviour
                             else if (prisel)
                                 prisel = false;
                         }
-            if (badMizinecR >= 5 && minMizinec < 330)
+            if (badMizinecR >= 20 && minMizinec < mizSdv)
             {
                 minMizinec -= 2;
                 badMizinecR = 0;
@@ -105,16 +107,16 @@ public class Player : MonoBehaviour
 
                     Debug.Log("bad<=25");
                 }
-                else if (minBPalec >= 340 && minBPalec <= 360)
+                else if (minBPalec >= 340 && minBPalec <= lock360)
                 {
                     minBPalec += 2;
-                    if (minBPalec >= 360)
+                    if (minBPalec >= lock360)
                         minBPalec = 2;
                 }
                 badBPalecR = 0;
                 Debug.Log("bad");
             }
-            if (mizinec1.localEulerAngles.z >= 334 && rightActive)
+            if (mizinec1.localEulerAngles.z >= mizSdv && rightActive)
             {
                 Debug.Log(3);
                 if (mizinec1.localEulerAngles.z + 2 >= minMizinec)
@@ -139,19 +141,19 @@ public class Player : MonoBehaviour
             if (bPalec.localEulerAngles.x < 20 || bPalec.localEulerAngles.x > 70)
             {
                 Debug.Log("bpalec gest true");
-                if (bPalec.localEulerAngles.x <= 26 || bPalec.localEulerAngles.x < 360 && bPalec.localEulerAngles.x > 300 && leftActive)
+                if (bPalec.localEulerAngles.x <= 26 || bPalec.localEulerAngles.x < lock360 && bPalec.localEulerAngles.x > bPUB90 && leftActive)
                 {
-                    if (minBPalec < 26 && bPalec.localEulerAngles.x - 1 <= minBPalec || minBPalec > 300 && bPalec.localEulerAngles.x + 1 >= minBPalec)
+                    if (minBPalec < 26 && bPalec.localEulerAngles.x - 1 <= minBPalec || minBPalec > bPUB90 && bPalec.localEulerAngles.x + 1 >= minBPalec)
                     {
                         Debug.Log("true");
                         inLeft = true;
                         Debug.Log(bPalec.localEulerAngles.x);
-                        if (bPalec.localEulerAngles.x > 300 || maxBPalec > bPalec.localEulerAngles.x)
+                        if (bPalec.localEulerAngles.x > bPUB90 || maxBPalec > bPalec.localEulerAngles.x)
                         {
                             maxBPalec = bPalec.localEulerAngles.x;
                             Debug.Log(8);
                         }
-                        else if (bPalec.localEulerAngles.x < maxBPalec && maxBPalec < 300)
+                        else if (bPalec.localEulerAngles.x < maxBPalec && maxBPalec < bPUB90)
                         {
                             maxBPalec = bPalec.localEulerAngles.x;
                             Debug.Log(7);
@@ -160,9 +162,9 @@ public class Player : MonoBehaviour
                         {
                             minBPalec -= 3;
                             if (minBPalec <= 0)
-                                minBPalec = 359;
+                                minBPalec = lock360 - 1;
                         }
-                        else if (deltaBPalec - 313 >= 1 && bPalec.localEulerAngles.x > 300)
+                        else if (deltaBPalec - 313 >= 1 && bPalec.localEulerAngles.x > bPUB90)
                         {
                             minBPalec -= 3;
                         }
@@ -174,10 +176,6 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-
-
-
-
             if (minBPalec - maxBPalec - 10 > deltaBPalec)
                 deltaBPalec = minBPalec - 10 - maxBPalec;
             if (maxMizinec - minMizinec > deltaMizinec)
@@ -260,7 +258,7 @@ public class Player : MonoBehaviour
             if (timer <= 5)
             {
                 calibrating.text = "Калибровка прыжка";
-                if (glove.localEulerAngles.z > 150 && glove.localEulerAngles.z < 300)
+                if (glove.localEulerAngles.z > 150 && glove.localEulerAngles.z < bPUB90)
                 {
                     timer += 1 * Time.deltaTime;
                     if (glove.localEulerAngles.z < minJump)
@@ -288,10 +286,10 @@ public class Player : MonoBehaviour
             if (timer <= 5)
             {
                 calibrating.text = "Калибровка мизинца";
-                if (mizinec1.localEulerAngles.z > 334)
+                if (mizinec1.localEulerAngles.z > mizSdv)
                 {
                     timer += 1 * Time.deltaTime;
-                    if (mizinec1.localEulerAngles.x > minMizinec)
+                    if (mizinec1.localEulerAngles.z > minMizinec)
                         minMizinec = mizinec1.localEulerAngles.z;
                     mizinecCalibrating = true;
                 }
@@ -314,16 +312,20 @@ public class Player : MonoBehaviour
             if (timer <= 5)
             {
                 calibrating.text = "Калибровка большого пальца";
-                if (bPalec.localEulerAngles.x < 26 || bPalec.localEulerAngles.x > 300)
+                if (bPalec.localEulerAngles.x < 26 || bPalec.localEulerAngles.x > bPUB90)
                 {
                     timer += 1 * Time.deltaTime;
-                    if (bPalec.localEulerAngles.x > 300 && bPalec.localEulerAngles.x < minBPalec)
+                    if (bPalec.localEulerAngles.x > bPUB90 && bPalec.localEulerAngles.x < minBPalec)
+                    {
                         minBPalec = bPalec.localEulerAngles.x;
+                        Debug.Log("Gleb");
+                    }
                     else if (bPalec.localEulerAngles.x < minBPalec && minBPalec < 26)
                     {
                         minBPalec = bPalec.localEulerAngles.x;
                         if (minBPalec <= 1)
-                            minBPalec = 359;
+                            minBPalec = lock360 - 1;
+                        Debug.Log("He Gleb");
                     }
                     bPalecCalibrating = true;
                 }
@@ -346,8 +348,8 @@ public class Player : MonoBehaviour
             if (timer <= 5)
             {
                 calibrating.text = "Калибровка кулака";
-                if (ukPalec1.localEulerAngles.x < 327 && ukPalec2.localEulerAngles.x <= 312 && mizinec1.localEulerAngles.x < 347)
-                    if (midPalec1.localEulerAngles.x < 314 && midPalec2.localEulerAngles.x < 312 && nnPalec1.localEulerAngles.x < 329)
+                if (ukPalec1.localEulerAngles.x < ukK && ukPalec2.localEulerAngles.x <= uk2K && mizinec1.localEulerAngles.x < mid1K)
+                    if (midPalec1.localEulerAngles.x < midK && midPalec2.localEulerAngles.x < mid2K && nnPalec1.localEulerAngles.x < nnK)
                     {
                         timer += 1 * Time.deltaTime;
                         if (ukPalec1.localEulerAngles.x < minUkPalecK1)
