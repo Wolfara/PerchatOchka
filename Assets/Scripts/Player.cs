@@ -116,9 +116,12 @@ public class Player : MonoBehaviour
                 badBPalecR = 0;
                 Debug.Log("bad");
             }
-            if (mizinec1.localEulerAngles.z >= mizSdv && rightActive)
+            Debug.Log(rightActive);
+            if (mizinec1.localEulerAngles.z >= mizSdv)
+                Debug.Log("Da");
+            if (mizinec1.localEulerAngles.z >= mizSdv && !rightActive)
             {
-                Debug.Log(3);
+                Debug.Log("Gleb :|");
                 if (mizinec1.localEulerAngles.z + 2 >= minMizinec)
                 {
                     inRight = true;
@@ -131,7 +134,7 @@ public class Player : MonoBehaviour
                 else if (mizinec1.localEulerAngles.z + 2 < minMizinec)
                 {
                     badMizinecR++;
-                    Debug.Log(5);
+                    Debug.Log("zaz");
                 }
             }
             if (mizinec1.localEulerAngles.z <= minMizinec - 1 && path < 3)
@@ -147,7 +150,7 @@ public class Player : MonoBehaviour
                     {
                         Debug.Log("true");
                         inLeft = true;
-                        Debug.Log(bPalec.localEulerAngles.x);
+                        //Debug.Log(bPalec.localEulerAngles.x);
                         if (bPalec.localEulerAngles.x > bPUB90 || maxBPalec > bPalec.localEulerAngles.x)
                         {
                             maxBPalec = bPalec.localEulerAngles.x;
@@ -261,7 +264,7 @@ public class Player : MonoBehaviour
                 if (glove.localEulerAngles.z > 150 && glove.localEulerAngles.z < bPUB90)
                 {
                     timer += 1 * Time.deltaTime;
-                    if (glove.localEulerAngles.z < minJump)
+                    //if (glove.localEulerAngles.z < minJump)
                         minJump = glove.localEulerAngles.z;
                     jumpCalibrating = true;
                 }
@@ -315,18 +318,18 @@ public class Player : MonoBehaviour
                 if (bPalec.localEulerAngles.x < 26 || bPalec.localEulerAngles.x > bPUB90)
                 {
                     timer += 1 * Time.deltaTime;
-                    if (bPalec.localEulerAngles.x > bPUB90 && bPalec.localEulerAngles.x < minBPalec)
-                    {
-                        minBPalec = bPalec.localEulerAngles.x;
-                        Debug.Log("Gleb");
-                    }
-                    else if (bPalec.localEulerAngles.x < minBPalec && minBPalec < 26)
+                    //if (bPalec.localEulerAngles.x > bPUB90 && bPalec.localEulerAngles.x < minBPalec)
+                    //{
+                    minBPalec = bPalec.localEulerAngles.x;
+                    //  Debug.Log("Gleb");
+                    //}
+                    /*else if (bPalec.localEulerAngles.x < minBPalec && minBPalec < 26)
                     {
                         minBPalec = bPalec.localEulerAngles.x;
                         if (minBPalec <= 1)
                             minBPalec = lock360 - 1;
                         Debug.Log("He Gleb");
-                    }
+                    }*/
                     bPalecCalibrating = true;
                 }
                 if (!bPalecCalibrated && !bPalecCalibrating)
