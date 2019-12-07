@@ -34,7 +34,7 @@ public class SpawnObst : MonoBehaviour
                     player.GetComponent<Player>().delayB = 3;
                     Debug.Log("Gleb");
                 }
-                else if (deltaBPalec - 314 > deltaMizinec && delaym <= 0)
+                else if (deltaBPalec - 313 > deltaMizinec && delaym <= 0)
                 {
                     obstaclesGroupNumber = 2;
                     player.GetComponent<Player>().delayM = 3;

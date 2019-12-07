@@ -77,7 +77,8 @@
     <Compile Include="Assets\Perchatka\Senso\SensoBaseController.cs" />
     <Compile Include="Assets\Perchatka\Senso\SensoBodyController.cs" />
     <Compile Include="Assets\Perchatka\Senso\SensoHandsController.cs" />
-    <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\Lvl1\Player.cs" />
+    <Compile Include="Assets\Scripts\Player2LVL.cs" />
     <Compile Include="Assets\Scripts\SpawnBonus.cs" />
     <Compile Include="Assets\Scripts\SpawnObst.cs" />
     <Reference Include="Unity.Timeline.Editor">
