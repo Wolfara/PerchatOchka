@@ -30,8 +30,9 @@ public class Player : MonoBehaviour
     bool bPalecCalibrating = false, mizinecCalibrating = false;
     public GameObject cam;
     public int badMizinecR = 0, badBPalecR = 0;
-    int bPUB90 = 300, mizSdv = 334, lock360 = 360;
+    int bPUB90 = 300, mizSdv = 334, lock360 = 360, bPSdv=26;
     int mid2K = 312, uk2K = 312, ukK = 327, midK = 314, nnK = 329, mid1K = 347;
+    public int delayM, delayB;
     void Start()
     {
         lifes = 3;
@@ -73,10 +74,10 @@ public class Player : MonoBehaviour
         cam.transform.position = new Vector3(transform.position.x + 4, transform.position.y + 2.7f, 0);
         if (gameStarted)
         {
-            if (deltaBPalec - 14 < deltaMizinec)
-                Debug.Log(1);
-            if (deltaMizinec - 2 < deltaBPalec - 12)
-                Debug.Log(2);
+            //if (deltaBPalec - 14 < deltaMizinec)
+            //    Debug.Log(1);
+            //if (deltaMizinec - 2 < deltaBPalec - 12)
+            //    Debug.Log(2);
             hp.text = lifes.ToString();
             Vector3 forceUp = new Vector3();
             transform.position -= new Vector3(speed, 0, 0) * Time.deltaTime;
@@ -97,7 +98,7 @@ public class Player : MonoBehaviour
             {
                 minMizinec -= 2;
                 badMizinecR = 0;
-                Debug.Log("bad and minmiz");
+                //Debug.Log("bad and minmiz");
             }
             if (badBPalecR == 20)
             {
@@ -105,63 +106,63 @@ public class Player : MonoBehaviour
                 {
                     minBPalec += 2;
 
-                    Debug.Log("bad<=25");
+                    //Debug.Log("bad<=25");
                 }
-                else if (minBPalec >= 340 && minBPalec <= lock360)
+                else if (minBPalec >= bPUB90 && minBPalec <= lock360)
                 {
                     minBPalec += 2;
                     if (minBPalec >= lock360)
                         minBPalec = 2;
                 }
                 badBPalecR = 0;
-                Debug.Log("bad");
+                //Debug.Log("bad");
             }
-            Debug.Log(rightActive);
+            //Debug.Log(rightActive);
             if (mizinec1.localEulerAngles.z >= mizSdv)
-                Debug.Log("Da");
-            if (mizinec1.localEulerAngles.z >= mizSdv && !rightActive)
-            {
-                Debug.Log("Gleb :|");
-                if (mizinec1.localEulerAngles.z + 2 >= minMizinec)
+                //Debug.Log("Da");
+                if (mizinec1.localEulerAngles.z >= mizSdv && !rightActive)
                 {
-                    inRight = true;
-                    if (mizinec1.localEulerAngles.z > maxMizinec)
-                        maxMizinec = mizinec1.localEulerAngles.z;
-                    if (deltaMizinec - 12 >= 7)
-                        minMizinec += 3;
-                    Debug.Log("Gagagaggg");
+                    //Debug.Log("Gleb :|");
+                    if (mizinec1.localEulerAngles.z + 2 >= minMizinec)
+                    {
+                        inRight = true;
+                        if (mizinec1.localEulerAngles.z > maxMizinec)
+                            maxMizinec = mizinec1.localEulerAngles.z;
+                        if (deltaMizinec - 12 >= 7)
+                            minMizinec += 3;
+                        //Debug.Log("Gagagaggg");
+                    }
+                    else if (mizinec1.localEulerAngles.z + 2 < minMizinec)
+                    {
+                        badMizinecR++;
+                        //Debug.Log("zaz");
+                    }
                 }
-                else if (mizinec1.localEulerAngles.z + 2 < minMizinec)
-                {
-                    badMizinecR++;
-                    Debug.Log("zaz");
-                }
-            }
             if (mizinec1.localEulerAngles.z <= minMizinec - 1 && path < 3)
             {
                 rightActive = false;
             }
-            if (bPalec.localEulerAngles.x < 20 || bPalec.localEulerAngles.x > 70)
+            if (bPalec.localEulerAngles.x < bPSdv || bPalec.localEulerAngles.x > 70)
             {
-                Debug.Log("bpalec gest true");
-                if (bPalec.localEulerAngles.x <= 26 || bPalec.localEulerAngles.x < lock360 && bPalec.localEulerAngles.x > bPUB90 && leftActive)
+                //Debug.Log("bpalec gest true");
+                if (bPalec.localEulerAngles.x <= bPSdv || bPalec.localEulerAngles.x < lock360 && bPalec.localEulerAngles.x > bPUB90 && leftActive)
                 {
                     if (minBPalec < 26 && bPalec.localEulerAngles.x - 1 <= minBPalec || minBPalec > bPUB90 && bPalec.localEulerAngles.x + 1 >= minBPalec)
                     {
-                        Debug.Log("true");
+                        //Debug.Log("true");
                         inLeft = true;
                         //Debug.Log(bPalec.localEulerAngles.x);
                         if (bPalec.localEulerAngles.x > bPUB90 || maxBPalec > bPalec.localEulerAngles.x)
                         {
                             maxBPalec = bPalec.localEulerAngles.x;
-                            Debug.Log(8);
+                            //Debug.Log(8);
                         }
                         else if (bPalec.localEulerAngles.x < maxBPalec && maxBPalec < bPUB90)
                         {
                             maxBPalec = bPalec.localEulerAngles.x;
-                            Debug.Log(7);
+                            //Debug.Log(7);
                         }
-                        if (deltaBPalec <= 1 && bPalec.localEulerAngles.x < 25)
+                        if (deltaBPalec <= 1 && bPalec.localEulerAngles.x < bPSdv)
                         {
                             minBPalec -= 3;
                             if (minBPalec <= 0)
@@ -174,15 +175,15 @@ public class Player : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("bpalec+");
+                        //Debug.Log("bpalec+");
                         badBPalecR++;
                     }
                 }
             }
-            if (minBPalec - maxBPalec - 10 > deltaBPalec)
-                deltaBPalec = minBPalec - 10 - maxBPalec;
+            if (minBPalec - maxBPalec > deltaBPalec)
+                deltaBPalec = minBPalec - maxBPalec;
             if (maxMizinec - minMizinec > deltaMizinec)
-                deltaMizinec = maxMizinec - minMizinec;
+                deltaMizinec = maxMizinec - minMizinec + 19;
             if (bPalec.localEulerAngles.x >= minBPalec + 1 && path > 1)
                 leftActive = false;
             if (Input.GetKeyDown(KeyCode.A) && path > 1)
@@ -265,7 +266,7 @@ public class Player : MonoBehaviour
                 {
                     timer += 1 * Time.deltaTime;
                     //if (glove.localEulerAngles.z < minJump)
-                        minJump = glove.localEulerAngles.z;
+                    minJump = glove.localEulerAngles.z;
                     jumpCalibrating = true;
                 }
             }
@@ -315,7 +316,7 @@ public class Player : MonoBehaviour
             if (timer <= 5)
             {
                 calibrating.text = "Калибровка большого пальца";
-                if (bPalec.localEulerAngles.x < 26 || bPalec.localEulerAngles.x > bPUB90)
+                if (bPalec.localEulerAngles.x < bPSdv || bPalec.localEulerAngles.x > bPUB90)
                 {
                     timer += 1 * Time.deltaTime;
                     //if (bPalec.localEulerAngles.x > bPUB90 && bPalec.localEulerAngles.x < minBPalec)
@@ -396,14 +397,14 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "ObstLR")
         {
-            Debug.Log("Life-");
+            //Debug.Log("Life-");
             speed = minSpeed;
             lifes--;
             Destroy(other);
         }
         if (other.tag == "ObstUp")
         {
-            Debug.Log("Life-");
+            //Debug.Log("Life-");
             lifes--;
             Destroy(other);
         }

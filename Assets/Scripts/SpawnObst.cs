@@ -28,28 +28,32 @@ public class SpawnObst : MonoBehaviour
         {
             if (deltaBPalec > 300)
             {
-                if (deltaBPalec - 310 < deltaMizinec - 4&&delayb<=0)
+                if (deltaBPalec - 310 < deltaMizinec - 4 && delayb <= 0)
                 {
                     obstaclesGroupNumber = 2;
-                    delayb = 3;
+                    player.GetComponent<Player>().delayB = 3;
+                    Debug.Log("Gleb");
                 }
-                else if (deltaBPalec - 314 > deltaMizinec&& delaym<=0)
+                else if (deltaBPalec - 314 > deltaMizinec && delaym <= 0)
                 {
                     obstaclesGroupNumber = 2;
-                    delaym = 3;
+                    player.GetComponent<Player>().delayM = 3;
+                    Debug.Log("Hleb");
                 }
             }
             else if (deltaBPalec < 300)
             {
-                if (deltaBPalec - 34 < deltaMizinec - 4&&delayb<=0)
+                if (deltaBPalec - 34 < deltaMizinec - 4 && delaym <= 0)
                 {
                     obstaclesGroupNumber = 2;
-                    delayb = 3;
+                    player.GetComponent<Player>().delayM = 3;
+                    Debug.Log("He Gleb");
                 }
-                else if (deltaBPalec - 38 > deltaMizinec&& delaym<=0)
+                else if (deltaBPalec - 38 > deltaMizinec && delayb <= 0)
                 {
                     obstaclesGroupNumber = 2;
-                    delaym = 3;
+                    player.GetComponent<Player>().delayB = 3;
+                    Debug.Log("He Hleb");
                 }
             }
             else
@@ -59,7 +63,7 @@ public class SpawnObst : MonoBehaviour
             Vector3 vec = new Vector3(player.transform.position.x, player.transform.position.y, 0);
             Instantiate(obstaclesGroup[obstaclesGroupNumber], vec, obstaclesGroup[obstaclesGroupNumber].transform.rotation);
             Destroy(gameObject);
-            delaym--; delayb--;
+            player.GetComponent<Player>().delayM--; player.GetComponent<Player>().delayB--;
         }
     }
 }
