@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     bool bPalecCalibrating = false, mizinecCalibrating = false;
     public GameObject cam;
     public int badMizinecR = 0, badBPalecR = 0;
-    int bPUB90 = 300, mizSdv = 334, lock360 = 360, bPSdv=26;
+    int bPUB90 = 300, mizSdv = 334, lock360 = 360, bPSdv = 26;
     int mid2K = 312, uk2K = 312, ukK = 327, midK = 314, nnK = 329, mid1K = 347;
     public int delayM, delayB;
     void Start()
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
         //deltaMizinec = 20max
         //Debug.Log(deltaMizinec);
         //Debug.Log(mizinec1.localEulerAngles.z);
-        cam.transform.position = new Vector3(transform.position.x + 4, transform.position.y + 2.7f, 0);
+        cam.transform.position = new Vector3(transform.position.x + 4, cam.transform.position.y, 0);
         if (gameStarted)
         {
             //if (deltaBPalec - 14 < deltaMizinec)
@@ -218,7 +218,7 @@ public class Player : MonoBehaviour
             }
             if (!prisel)
             {
-                GetComponent<BoxCollider>().size = new Vector3(1, 356.478f, 1);
+                GetComponent<BoxCollider>().size = new Vector3(1, 9.851804f, 1);
             }
             if (bonus == 10)
             {
@@ -227,7 +227,7 @@ public class Player : MonoBehaviour
             }
             else if (prisel)
             {
-                GetComponent<BoxCollider>().size = new Vector3(1, 162.8f, 1);
+                GetComponent<BoxCollider>().size = new Vector3(1, 9.851804f / 2, 1);
             }
             if (inRight && path < 3 && !rightActive)
             {

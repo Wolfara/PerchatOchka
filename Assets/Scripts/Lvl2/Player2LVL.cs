@@ -175,7 +175,7 @@ public class Player2LVL : MonoBehaviour
             }
             if (prisel)
             {
-                GetComponent<BoxCollider>().size = new Vector3(1, 1, 1);
+                GetComponent<BoxCollider>().size = new Vector3(1, 358.0507f, 1);
             }
             if (bonus == 10)
             {
@@ -184,16 +184,16 @@ public class Player2LVL : MonoBehaviour
             }
             else if (!prisel)
             {
-                GetComponent<BoxCollider>().size = new Vector3(1, 0.5f, 1);
+                GetComponent<BoxCollider>().size = new Vector3(1, 358.0507f/2, 1);
             }
             if (inRight)
             {
-                speedB = -speed;
+                speedB = -3;
                 inRight = false;
             }
             if (inLeft)
             {
-                speedB = speed;
+                speedB = 2;
                 inLeft = false;
             }
             if (lifes <= 0)
@@ -340,6 +340,9 @@ public class Player2LVL : MonoBehaviour
             bonus++;
             Destroy(other);
         }
+    }
+    private void OnTriggerStay(Collider other)
+    {
         if (other.tag == "Barier")
             speedB = 0;
     }

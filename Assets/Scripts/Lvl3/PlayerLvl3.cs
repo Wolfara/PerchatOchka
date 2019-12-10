@@ -10,20 +10,24 @@ public class PlayerLvl3 : MonoBehaviour
     public float timer;
     int mid2K = 312, uk2K = 312, ukK = 327, midK = 314, nnK = 329, mid1K = 347;
     public Transform ukPalec1, ukPalec2, mizinec1, midPalec1, midPalec2, nnPalec1, liana;
-    float maxRotateLiana = 360;
-    float minRotateLiana = 1;
+    float maxRotateLiana = 18;
+    float minRotateLiana = -18;
     public Text calibrating;
     bool jumpA = false, jumpD;
     bool shvatilsa = false;
     float jumpF;
-
+    Rigidbody rb;
+    Vector3 startPos;
+    bool lianaIL = false;
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         zahvat = false;
         jumpF = 12;
         kulakCalibrated = false;
         kulakCalibrating = false;
         jumpD = false;
+        startPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
     }
 
     void Update()
@@ -45,26 +49,21 @@ public class PlayerLvl3 : MonoBehaviour
 
             else
             {
+                rb.useGravity = true;
                 zahvat = false;
                 jumpA = false;
                 shvatilsa = false;
             }
             if (!shvatilsa)
-                transform.position += new Vector3(1.5f, 0, 0) * Time.deltaTime;
+                transform.position += new Vector3(3, 0, 0) * Time.deltaTime;
             if (jumpA /*&& !jumpD*/&& transform.position.y <= 50)
             {
                 transform.position += new Vector3(0, jumpF, 0) * Time.deltaTime;
                 //jumpA = false;
                 //jumpD = true;
             }
-            if (transform.position.y >= 49)
-                jumpA = false;
-            if (transform.position.y > 50 && !shvatilsa && transform.position.y > 44.79 && !jumpA)
-            {
-            }
             if (!zahvat && transform.position.y > 44.79)
             {
-                transform.position -= new Vector3(0, 15, 0) * Time.deltaTime;
                 transform.parent = null;
                 transform.localEulerAngles = new Vector3(0, 0, 0);
                 transform.localScale = new Vector3(1, 2.5f, 1);
@@ -104,18 +103,29 @@ public class PlayerLvl3 : MonoBehaviour
             {
                 shvatilsa = true;
                 transform.parent = liana;
-                if (liana.localEulerAngles.z < maxRotateLiana)
+                rb.useGravity = false;
+                if (liana.localEulerAngles.z < maxRotateLiana&&!lianaIL)
                 {
-                    liana.localEulerAngles += new Vector3(0, 0, 4) * Time.deltaTime;
+                    liana.localEulerAngles += new Vector3(0, 0, 8) * Time.deltaTime;
+                    Debug.Log(liana.localEulerAngles.z);
+                    if (liana.localEulerAngles.z >= maxRotateLiana)
+                        lianaIL = true;
                 }
+                else if (liana.localEulerAngles.z > minRotateLiana&&lianaIL)
+                {
+                    liana.localEulerAngles += new Vector3(0, 0, 8) * Time.deltaTime;
+                    lianaIL = true;
+                }
+                if (liana.localEulerAngles.z <= minRotateLiana && lianaIL)
+                    lianaIL = false;
             }
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Platform")
+        if (other.tag == "Bonus")
         {
-            jumpD = false;
+
         }
     }
 }
