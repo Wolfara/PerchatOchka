@@ -9,6 +9,8 @@ TagManager:
   - ObstDown
   - Platform
   - Bonus
+  - Barier
+  - Liana
   layers:
   - Default
   - TransparentFX

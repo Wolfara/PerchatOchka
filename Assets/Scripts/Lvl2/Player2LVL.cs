@@ -1,0 +1,346 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Player2LVL : MonoBehaviour
+{
+    bool mizinecCalibrated = false, bPalecCalibrated = false, kulakCalibrated = false, jumpCalibrated = false, gameStarted = false, jumpCalibrating = false;
+    bool kulakCalibrating = false, mizinecCalibrating, bPalecCalibrating;
+    float bPUB90 = 300, minJump, minMizinec, minBPalec;
+    public float timer;
+    int mizSdv = 334, lock360 = 360, bPSdv = 28;
+    int mid2K = 312, uk2K = 312, ukK = 327, midK = 314, nnK = 329, mid1K = 347;
+    public Text calibrating, ubp, um, up, hp;
+    public GameObject calibratingGO, cam, dead;
+    public Transform glove, mizinec1, bPalec, ukPalec1, ukPalec2, nnPalec1, nnPalec2, midPalec1, midPalec2;
+    float minUkPalecK1 = 361, minUkPalecK2 = 361, minMidPalecK1 = 361, minMidPalecK2 = 361, minNNPalecK1 = 361, minNNPalecK2 = 361, minMizinecK1 = 361, minMizinecK2 = 361;
+    int lifes, bonus, badMizinecR, badBPalecR;
+    float speed, maxSpeed, deltaMizinec, maxMizinec, maxBPalec, deltaBPalec, minSpeed;
+    bool inLeft = false, inRight = false, prisel = false, jump = false, jumpA = false;
+    float speedB;
+    // Start is called before the first frame update
+    void Start()
+    {
+        lifes = 3;
+        bonus = 0;
+        speed = 2;
+        maxSpeed = 20;
+        minSpeed = 2;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (minBPalec >= 20 && minBPalec < 26)
+            ubp.text = "20";
+        if (minBPalec >= 10 && minBPalec < 20)
+            ubp.text = "45";
+        if (minBPalec >= 300)
+            ubp.text = "80";
+        if (minMizinec >= 334 && minMizinec < 337)
+            um.text = "10";
+        if (minMizinec >= 337 && minMizinec < 340)
+            um.text = "20";
+        if (minMizinec >= 340)
+            um.text = "45";
+        if (minJump >= 300)
+            up.text = "45";
+        if (minJump >= 280 && minJump < 300)
+            up.text = "90";
+        if (minJump >= 240 && minJump < 280)
+            up.text = "120";
+        if (minJump < 200)
+            up.text = "180";
+        cam.transform.position = new Vector3(transform.position.x - 14, transform.position.y + 18.7883f, 101.5f);
+        if (gameStarted)
+        {
+            hp.text = lifes.ToString();
+            Vector3 forceUp = new Vector3();
+            transform.position += new Vector3(speed, 0, 0) * Time.deltaTime;
+            if (speed < maxSpeed)
+                speed += 1 * Time.deltaTime;
+            forceUp += transform.up * 7;
+            if (ukPalec1.localEulerAngles.x - 2 <= minUkPalecK1 && ukPalec2.localEulerAngles.x - 2 <= minUkPalecK2)
+                if (mizinec1.localEulerAngles.x - 2 <= minMizinecK2)
+                    if (midPalec1.localEulerAngles.x - 2 <= minMidPalecK1 && midPalec2.localEulerAngles.x - 2 <= minMidPalecK2)
+                        if (nnPalec1.localEulerAngles.x - 2 <= minNNPalecK1)
+                        {
+                            if (!prisel)
+                                prisel = true;
+                            else if (prisel)
+                                prisel = false;
+                        }
+            if (badMizinecR >= 20 && minMizinec > mizSdv)
+            {
+                minMizinec -= 2;
+                badMizinecR = 0;
+            }
+            if (badBPalecR == 20)
+            {
+                if (minBPalec <= 25)
+                {
+                    minBPalec += 2;
+                }
+                else if (minBPalec >= bPUB90 && minBPalec <= lock360)
+                {
+                    minBPalec += 2;
+                    if (minBPalec >= lock360)
+                        minBPalec = 2;
+                }
+                badBPalecR = 0;
+            }
+            if (mizinec1.localEulerAngles.z >= mizSdv)
+                if (mizinec1.localEulerAngles.z >= mizSdv)
+                {
+                    if (mizinec1.localEulerAngles.z + 2 >= minMizinec)
+                    {
+                        inRight = true;
+                        if (mizinec1.localEulerAngles.z > maxMizinec)
+                            maxMizinec = mizinec1.localEulerAngles.z;
+                        if (deltaMizinec - 12 >= 4)
+                            minMizinec += 3;
+                    }
+                    else if (mizinec1.localEulerAngles.z + 2 < minMizinec)
+                    {
+                        badMizinecR++;
+                    }
+                }
+            if (bPalec.localEulerAngles.x < bPSdv || bPalec.localEulerAngles.x > 70)
+            {
+                if (bPalec.localEulerAngles.x <= bPSdv || bPalec.localEulerAngles.x < lock360 && bPalec.localEulerAngles.x > bPUB90)
+                {
+                    if (minBPalec < 26 && bPalec.localEulerAngles.x - 1 <= minBPalec || minBPalec > bPUB90 && bPalec.localEulerAngles.x + 1 >= minBPalec)
+                    {
+                        inLeft = true;
+                        if (bPalec.localEulerAngles.x > bPUB90 || maxBPalec > bPalec.localEulerAngles.x)
+                        {
+                            maxBPalec = bPalec.localEulerAngles.x;
+                        }
+                        else if (bPalec.localEulerAngles.x < maxBPalec && maxBPalec < bPUB90)
+                        {
+                            maxBPalec = bPalec.localEulerAngles.x;
+                        }
+                        if (deltaBPalec <= 4 && bPalec.localEulerAngles.x < bPSdv)
+                        {
+                            minBPalec -= 3;
+                            if (minBPalec <= 0)
+                                minBPalec = lock360 - 1;
+                        }
+                        else if (deltaBPalec - 313 >= 4 && bPalec.localEulerAngles.x > bPUB90)
+                        {
+                            minBPalec -= 3;
+                        }
+                    }
+                    else
+                    {
+                        badBPalecR++;
+                    }
+                }
+            }
+            transform.position += new Vector3(0, 0, speedB) * Time.deltaTime;
+            if (minBPalec - maxBPalec > deltaBPalec)
+                deltaBPalec = minBPalec - maxBPalec;
+            if (maxMizinec - minMizinec > deltaMizinec)
+                deltaMizinec = maxMizinec - minMizinec + 19;
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                inLeft = true;
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                inRight = true;
+            }
+            if (Input.GetKeyDown(KeyCode.S) && !prisel)
+            {
+                prisel = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.S) && prisel)
+            {
+                prisel = false;
+            }
+            if (Input.GetKeyDown(KeyCode.W) && !jump)
+            {
+                jump = true;
+            }
+            if (glove.localEulerAngles.z >= minJump && !jump && !jumpA)
+            {
+                jump = true;
+            }
+            if (jump && !jumpA && prisel)
+            {
+                transform.position += new Vector3(0, 3, 0);
+                jumpA = true;
+                jump = false;
+            }
+            if (prisel)
+            {
+                GetComponent<BoxCollider>().size = new Vector3(1, 1, 1);
+            }
+            if (bonus == 10)
+            {
+                lifes++;
+                bonus = 0;
+            }
+            else if (!prisel)
+            {
+                GetComponent<BoxCollider>().size = new Vector3(1, 0.5f, 1);
+            }
+            if (inRight)
+            {
+                speedB = -speed;
+                inRight = false;
+            }
+            if (inLeft)
+            {
+                speedB = speed;
+                inLeft = false;
+            }
+            if (lifes <= 0)
+            {
+                dead.SetActive(true);
+            }
+        }
+        if (mizinecCalibrated && bPalecCalibrated && kulakCalibrated && jumpCalibrated)
+        {
+            gameStarted = true;
+        }
+        if (!jumpCalibrated)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                jumpCalibrated = true;
+                timer = 0;
+            }
+            if (timer <= 5)
+            {
+                calibrating.text = "Калибровка прыжка";
+                if (glove.localEulerAngles.z > 160 && glove.localEulerAngles.z < bPUB90)
+                {
+                    timer += 1 * Time.deltaTime;
+                    minJump = glove.localEulerAngles.z;
+                    jumpCalibrating = true;
+                }
+            }
+            else if (timer >= 5 && !jumpCalibrating && !jumpCalibrated)
+            {
+                timer = 0;
+            }
+            else if (jumpCalibrating && timer >= 5)
+            {
+                jumpCalibrated = true;
+                timer = 0;
+            }
+        }
+        if (!mizinecCalibrated && jumpCalibrated)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                mizinecCalibrated = true;
+                timer = 0;
+            }
+            if (timer <= 5)
+            {
+                calibrating.text = "Калибровка мизинца";
+                if (mizinec1.localEulerAngles.z > mizSdv)
+                {
+                    timer += 1 * Time.deltaTime;
+                    if (mizinec1.localEulerAngles.z > minMizinec)
+                        minMizinec = mizinec1.localEulerAngles.z;
+                    mizinecCalibrating = true;
+                }
+                if (!mizinecCalibrated && !mizinecCalibrating)
+                    timer = 0;
+                else if (mizinecCalibrating && timer >= 5)
+                {
+                    mizinecCalibrated = true;
+                    timer = 0;
+                }
+            }
+        }
+        if (!bPalecCalibrated && mizinecCalibrated && jumpCalibrated)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                bPalecCalibrated = true;
+                timer = 0;
+            }
+            if (timer <= 5)
+            {
+                calibrating.text = "Калибровка большого пальца";
+                if (bPalec.localEulerAngles.x < bPSdv || bPalec.localEulerAngles.x > bPUB90)
+                {
+                    timer += 1 * Time.deltaTime;
+                    minBPalec = bPalec.localEulerAngles.x;
+                    bPalecCalibrating = true;
+                }
+                if (!bPalecCalibrated && !bPalecCalibrating)
+                    timer = 0;
+                else if (bPalecCalibrating && timer >= 5)
+                {
+                    bPalecCalibrated = true;
+                    timer = 0;
+                }
+            }
+        }
+        if (!kulakCalibrated && bPalecCalibrated && mizinecCalibrated && jumpCalibrated)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                kulakCalibrated = true;
+                timer = 0;
+            }
+            if (timer <= 5)
+            {
+                calibrating.text = "Калибровка кулака";
+                if (ukPalec1.localEulerAngles.x < ukK && ukPalec2.localEulerAngles.x <= uk2K && mizinec1.localEulerAngles.x < mid1K)
+                    if (midPalec1.localEulerAngles.x < midK && midPalec2.localEulerAngles.x < mid2K && nnPalec1.localEulerAngles.x < nnK)
+                    {
+                        timer += 1 * Time.deltaTime;
+                        minUkPalecK1 = ukPalec1.localEulerAngles.x;
+                        minUkPalecK2 = ukPalec2.localEulerAngles.x;
+                        minMidPalecK1 = midPalec1.localEulerAngles.x;
+                        minMidPalecK2 = midPalec2.localEulerAngles.x;
+                        minNNPalecK1 = nnPalec1.localEulerAngles.x;
+                        minMizinecK1 = mizinec1.localEulerAngles.x;
+                        kulakCalibrating = true;
+
+                    }
+                if (!kulakCalibrated && !kulakCalibrating)
+                    timer = 0;
+                else if (kulakCalibrating && timer >= 5)
+                {
+                    kulakCalibrated = true;
+                    calibratingGO.SetActive(false);
+                }
+            }
+        }
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "ObstLR")
+        {
+            //Debug.Log("Life-");
+            speed = minSpeed;
+            lifes--;
+            Destroy(other);
+        }
+        if (other.tag == "ObstUp")
+        {
+            //Debug.Log("Life-");
+            lifes--;
+            Destroy(other);
+        }
+        if (other.tag == "Platform")
+        {
+            jumpA = false;
+        }
+        if (other.tag == "Bonus")
+        {
+            bonus++;
+            Destroy(other);
+        }
+        if (other.tag == "Barier")
+            speedB = 0;
+    }
+}

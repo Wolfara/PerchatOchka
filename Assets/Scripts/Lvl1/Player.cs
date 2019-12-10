@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
                             else if (prisel)
                                 prisel = false;
                         }
-            if (badMizinecR >= 20 && minMizinec < mizSdv)
+            if (badMizinecR >= 20 && minMizinec > mizSdv)
             {
                 minMizinec -= 2;
                 badMizinecR = 0;
@@ -216,18 +216,18 @@ public class Player : MonoBehaviour
                 jumpA = true;
                 jump = false;
             }
-            if (prisel)
+            if (!prisel)
             {
-                GetComponent<BoxCollider>().size = new Vector3(1, 1, 1);
+                GetComponent<BoxCollider>().size = new Vector3(1, 356.478f, 1);
             }
             if (bonus == 10)
             {
                 lifes++;
                 bonus = 0;
             }
-            else if (!prisel)
+            else if (prisel)
             {
-                GetComponent<BoxCollider>().size = new Vector3(1, 0.5f, 1);
+                GetComponent<BoxCollider>().size = new Vector3(1, 162.8f, 1);
             }
             if (inRight && path < 3 && !rightActive)
             {
