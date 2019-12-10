@@ -106,14 +106,14 @@ public class PlayerLvl3 : MonoBehaviour
                 rb.useGravity = false;
                 if (liana.localEulerAngles.z < maxRotateLiana&&!lianaIL)
                 {
-                    liana.localEulerAngles += new Vector3(0, 0, 8) * Time.deltaTime;
+                    liana.localEulerAngles += new Vector3(0, 0, 16) * Time.deltaTime;
                     Debug.Log(liana.localEulerAngles.z);
                     if (liana.localEulerAngles.z >= maxRotateLiana)
                         lianaIL = true;
                 }
                 else if (liana.localEulerAngles.z > minRotateLiana&&lianaIL)
                 {
-                    liana.localEulerAngles += new Vector3(0, 0, 8) * Time.deltaTime;
+                    liana.localEulerAngles += new Vector3(0, 0, 16) * Time.deltaTime;
                     lianaIL = true;
                 }
                 if (liana.localEulerAngles.z <= minRotateLiana && lianaIL)

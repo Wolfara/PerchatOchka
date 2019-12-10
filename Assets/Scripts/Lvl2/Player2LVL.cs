@@ -19,6 +19,7 @@ public class Player2LVL : MonoBehaviour
     float speed, maxSpeed, deltaMizinec, maxMizinec, maxBPalec, deltaBPalec, minSpeed;
     bool inLeft = false, inRight = false, prisel = false, jump = false, jumpA = false;
     float speedB;
+    public int delayM = 3, delayB = 3;
     // Start is called before the first frame update
     void Start()
     {

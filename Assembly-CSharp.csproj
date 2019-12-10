@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\Lvl3\PlayerLvl3.cs" />
     <Compile Include="Assets\Scripts\SpawnBonus.cs" />
     <Compile Include="Assets\Scripts\SpawnObst.cs" />
+    <Compile Include="Assets\Scripts\SpawnObst2LVL.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Volch/Desktop/ПерчатОчка/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
