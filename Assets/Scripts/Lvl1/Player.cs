@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     int bPUB90 = 300, mizSdv = 334, lock360 = 360, bPSdv = 26;
     int mid2K = 312, uk2K = 312, ukK = 327, midK = 314, nnK = 329, mid1K = 347;
     public int delayM, delayB;
+    public Animation anim;
     void Start()
     {
         lifes = 3;
@@ -213,21 +214,34 @@ public class Player : MonoBehaviour
             if (jump && !jumpA && prisel)
             {
                 transform.position += new Vector3(0, 3, 0);
+                anim.Play("Jump");
+                anim.Stop("Sit");
+                anim.Stop("Take 001");
                 jumpA = true;
                 jump = false;
+            }
+            if(jumpA&&!prisel)
+            {
+                anim.Play("Take 001");
+                anim.Stop("Sit");
+                anim.Stop("Jump");
             }
             if (!prisel)
             {
                 GetComponent<BoxCollider>().size = new Vector3(1, 9.851804f, 1);
+                anim.Stop("Sit");
+            }
+            else if (prisel)
+            {
+                anim.Play("Sit");
+                anim.Stop("Take 001");
+                anim.Stop("Jump");
+                GetComponent<BoxCollider>().size = new Vector3(1, 9.851804f / 2, 1);
             }
             if (bonus == 10)
             {
                 lifes++;
                 bonus = 0;
-            }
-            else if (prisel)
-            {
-                GetComponent<BoxCollider>().size = new Vector3(1, 9.851804f / 2, 1);
             }
             if (inRight && path < 3 && !rightActive)
             {
