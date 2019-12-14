@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public float speed;
@@ -32,8 +33,7 @@ public class Player : MonoBehaviour
     public int badMizinecR = 0, badBPalecR = 0;
     int bPUB90 = 300, mizSdv = 334, lock360 = 360, bPSdv = 26;
     int mid2K = 312, uk2K = 312, ukK = 327, midK = 314, nnK = 329, mid1K = 347;
-    public int delayM, delayB;
-    public Animation anim;
+    //public Animation anim;
     void Start()
     {
         lifes = 3;
@@ -73,6 +73,8 @@ public class Player : MonoBehaviour
         //Debug.Log(deltaMizinec);
         //Debug.Log(mizinec1.localEulerAngles.z);
         cam.transform.position = new Vector3(transform.position.x + 4, cam.transform.position.y, 0);
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene(0);
         if (gameStarted)
         {
             //if (deltaBPalec - 14 < deltaMizinec)
@@ -213,196 +215,197 @@ public class Player : MonoBehaviour
             }
             if (jump && !jumpA && prisel)
             {
-                transform.position += new Vector3(0, 3, 0);
-                anim.Play("Jump");
-                anim.Stop("Sit");
-                anim.Stop("Take 001");
+                //transform.position += new Vector3(0, 3, 0);
+                //anim.Play("Jump");
+                //anim.Stop("Sit");
+                //anim.Stop("Take 001");
                 jumpA = true;
                 jump = false;
-            }
-            if(jumpA&&!prisel)
-            {
-                anim.Play("Take 001");
-                anim.Stop("Sit");
-                anim.Stop("Jump");
-            }
-            if (!prisel)
-            {
-                GetComponent<BoxCollider>().size = new Vector3(1, 9.851804f, 1);
-                anim.Stop("Sit");
-            }
-            else if (prisel)
-            {
-                anim.Play("Sit");
-                anim.Stop("Take 001");
-                anim.Stop("Jump");
-                GetComponent<BoxCollider>().size = new Vector3(1, 9.851804f / 2, 1);
-            }
-            if (bonus == 10)
-            {
-                lifes++;
-                bonus = 0;
-            }
-            if (inRight && path < 3 && !rightActive)
-            {
-                transform.position += new Vector3(0, 0, 2);
-                path++;
-                inRight = false;
-                rightActive = true;
-            }
-            if (inLeft && path > 1 && !leftActive)
-            {
-                transform.position -= new Vector3(0, 0, 2);
-                path--;
-                inLeft = false;
-                leftActive = true;
-            }
-            if (lifes <= 0)
-            {
-                dead.SetActive(true);
-            }
-        }
-        if (mizinecCalibrated && bPalec && kulakCalibrated && jumpCalibrated)
-        {
-            gameStarted = true;
-        }
-        if (!jumpCalibrated)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                jumpCalibrated = true;
-                timer = 0;
-            }
-            if (timer <= 5)
-            {
-                calibrating.text = "Калибровка прыжка";
-                if (glove.localEulerAngles.z > 150 && glove.localEulerAngles.z < bPUB90)
+                //}
+                //if (jumpA && !prisel)
+                //{
+                //    anim.Play("Take 001");
+                //    anim.Stop("Sit");
+                //    anim.Stop("Jump");
+                //}
+                if (!prisel)
                 {
-                    timer += 1 * Time.deltaTime;
-                    //if (glove.localEulerAngles.z < minJump)
-                    minJump = glove.localEulerAngles.z;
-                    jumpCalibrating = true;
+                    GetComponent<BoxCollider>().size = new Vector3(1, 9.851804f, 1);
+                    //anim.Stop("Sit");
+                }
+                else if (prisel)
+                {
+                    //anim.Play("Sit");
+                    //anim.Stop("Take 001");
+                    //anim.Stop("Jump");
+                    GetComponent<BoxCollider>().size = new Vector3(1, 9.851804f / 2, 1);
+                }
+                if (bonus == 10)
+                {
+                    lifes++;
+                    bonus = 0;
+                }
+                if (inRight && path < 3 && !rightActive)
+                {
+                    transform.position += new Vector3(0, 0, 2);
+                    path++;
+                    inRight = false;
+                    rightActive = true;
+                }
+                if (inLeft && path > 1 && !leftActive)
+                {
+                    transform.position -= new Vector3(0, 0, 2);
+                    path--;
+                    inLeft = false;
+                    leftActive = true;
+                }
+                if (lifes <= 0)
+                {
+                    dead.SetActive(true);
                 }
             }
-            else if (timer >= 5 && !jumpCalibrating && !jumpCalibrated)
+            if (mizinecCalibrated && bPalec && kulakCalibrated && jumpCalibrated)
             {
-                timer = 0;
+                gameStarted = true;
             }
-            else if (jumpCalibrating && timer >= 5)
+            if (!jumpCalibrated)
             {
-                jumpCalibrated = true;
-                timer = 0;
-            }
-        }
-        if (!mizinecCalibrated && jumpCalibrated)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                mizinecCalibrated = true;
-                timer = 0;
-            }
-            if (timer <= 5)
-            {
-                calibrating.text = "Калибровка мизинца";
-                if (mizinec1.localEulerAngles.z > mizSdv)
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    timer += 1 * Time.deltaTime;
-                    if (mizinec1.localEulerAngles.z > minMizinec)
-                        minMizinec = mizinec1.localEulerAngles.z;
-                    mizinecCalibrating = true;
-                }
-                if (!mizinecCalibrated && !mizinecCalibrating)
+                    jumpCalibrated = true;
                     timer = 0;
-                else if (mizinecCalibrating && timer >= 5)
+                }
+                if (timer <= 5)
+                {
+                    calibrating.text = "Калибровка прыжка";
+                    if (glove.localEulerAngles.z > 150 && glove.localEulerAngles.z < bPUB90)
+                    {
+                        timer += 1 * Time.deltaTime;
+                        //if (glove.localEulerAngles.z < minJump)
+                        minJump = glove.localEulerAngles.z;
+                        jumpCalibrating = true;
+                    }
+                }
+                else if (timer >= 5 && !jumpCalibrating && !jumpCalibrated)
+                {
+                    timer = 0;
+                }
+                else if (jumpCalibrating && timer >= 5)
+                {
+                    jumpCalibrated = true;
+                    timer = 0;
+                }
+            }
+            if (!mizinecCalibrated && jumpCalibrated)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     mizinecCalibrated = true;
                     timer = 0;
                 }
-            }
-        }
-        if (!bPalecCalibrated && mizinecCalibrated && jumpCalibrated)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                bPalecCalibrated = true;
-                timer = 0;
-            }
-            if (timer <= 5)
-            {
-                calibrating.text = "Калибровка большого пальца";
-                if (bPalec.localEulerAngles.x < bPSdv || bPalec.localEulerAngles.x > bPUB90)
+                if (timer <= 5)
                 {
-                    timer += 1 * Time.deltaTime;
-                    //if (bPalec.localEulerAngles.x > bPUB90 && bPalec.localEulerAngles.x < minBPalec)
-                    //{
-                    minBPalec = bPalec.localEulerAngles.x;
-                    //  Debug.Log("Gleb");
-                    //}
-                    /*else if (bPalec.localEulerAngles.x < minBPalec && minBPalec < 26)
+                    calibrating.text = "Калибровка мизинца";
+                    if (mizinec1.localEulerAngles.z > mizSdv)
                     {
-                        minBPalec = bPalec.localEulerAngles.x;
-                        if (minBPalec <= 1)
-                            minBPalec = lock360 - 1;
-                        Debug.Log("He Gleb");
-                    }*/
-                    bPalecCalibrating = true;
+                        timer += 1 * Time.deltaTime;
+                        if (mizinec1.localEulerAngles.z > minMizinec)
+                            minMizinec = mizinec1.localEulerAngles.z;
+                        mizinecCalibrating = true;
+                    }
+                    if (!mizinecCalibrated && !mizinecCalibrating)
+                        timer = 0;
+                    else if (mizinecCalibrating && timer >= 5)
+                    {
+                        mizinecCalibrated = true;
+                        timer = 0;
+                    }
                 }
-                if (!bPalecCalibrated && !bPalecCalibrating)
-                    timer = 0;
-                else if (bPalecCalibrating && timer >= 5)
+            }
+            if (!bPalecCalibrated && mizinecCalibrated && jumpCalibrated)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     bPalecCalibrated = true;
                     timer = 0;
                 }
-            }
-        }
-        if (!kulakCalibrated && bPalecCalibrated && mizinecCalibrated && jumpCalibrated)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                kulakCalibrated = true;
-                timer = 0;
-            }
-            if (timer <= 5)
-            {
-                calibrating.text = "Калибровка кулака";
-                if (ukPalec1.localEulerAngles.x < ukK && ukPalec2.localEulerAngles.x <= uk2K && mizinec1.localEulerAngles.x < mid1K)
-                    if (midPalec1.localEulerAngles.x < midK && midPalec2.localEulerAngles.x < mid2K && nnPalec1.localEulerAngles.x < nnK)
+                if (timer <= 5)
+                {
+                    calibrating.text = "Калибровка большого пальца";
+                    if (bPalec.localEulerAngles.x < bPSdv || bPalec.localEulerAngles.x > bPUB90)
                     {
                         timer += 1 * Time.deltaTime;
-                        if (ukPalec1.localEulerAngles.x < minUkPalecK1)
+                        //if (bPalec.localEulerAngles.x > bPUB90 && bPalec.localEulerAngles.x < minBPalec)
+                        //{
+                        minBPalec = bPalec.localEulerAngles.x;
+                        //  Debug.Log("Gleb");
+                        //}
+                        /*else if (bPalec.localEulerAngles.x < minBPalec && minBPalec < 26)
                         {
-                            minUkPalecK1 = ukPalec1.localEulerAngles.x;
-                        }
-                        if (ukPalec2.localEulerAngles.x < minUkPalecK2)
-                        {
-                            minUkPalecK2 = ukPalec2.localEulerAngles.x;
-                        }
-                        if (midPalec1.localEulerAngles.x < minMidPalecK1)
-                        {
-                            minMidPalecK1 = midPalec1.localEulerAngles.x;
-                        }
-                        if (midPalec2.localEulerAngles.x < minMidPalecK2)
-                        {
-                            minMidPalecK2 = midPalec2.localEulerAngles.x;
-                        }
-                        if (nnPalec1.localEulerAngles.x < minNNPalecK1)
-                        {
-                            minNNPalecK1 = nnPalec1.localEulerAngles.x;
-                        }
-                        if (mizinec1.localEulerAngles.x < minMizinecK1)
-                        {
-                            minMizinecK1 = mizinec1.localEulerAngles.x;
-                        }
-                        kulakCalibrating = true;
-
+                            minBPalec = bPalec.localEulerAngles.x;
+                            if (minBPalec <= 1)
+                                minBPalec = lock360 - 1;
+                            Debug.Log("He Gleb");
+                        }*/
+                        bPalecCalibrating = true;
                     }
-                if (!kulakCalibrated && !kulakCalibrating)
-                    timer = 0;
-                else if (kulakCalibrating && timer >= 5)
+                    if (!bPalecCalibrated && !bPalecCalibrating)
+                        timer = 0;
+                    else if (bPalecCalibrating && timer >= 5)
+                    {
+                        bPalecCalibrated = true;
+                        timer = 0;
+                    }
+                }
+            }
+            if (!kulakCalibrated && bPalecCalibrated && mizinecCalibrated && jumpCalibrated)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
                     kulakCalibrated = true;
-                    calibratingGO.SetActive(false);
+                    timer = 0;
+                }
+                if (timer <= 5)
+                {
+                    calibrating.text = "Калибровка кулака";
+                    if (ukPalec1.localEulerAngles.x < ukK && ukPalec2.localEulerAngles.x <= uk2K && mizinec1.localEulerAngles.x < mid1K)
+                        if (midPalec1.localEulerAngles.x < midK && midPalec2.localEulerAngles.x < mid2K && nnPalec1.localEulerAngles.x < nnK)
+                        {
+                            timer += 1 * Time.deltaTime;
+                            if (ukPalec1.localEulerAngles.x < minUkPalecK1)
+                            {
+                                minUkPalecK1 = ukPalec1.localEulerAngles.x;
+                            }
+                            if (ukPalec2.localEulerAngles.x < minUkPalecK2)
+                            {
+                                minUkPalecK2 = ukPalec2.localEulerAngles.x;
+                            }
+                            if (midPalec1.localEulerAngles.x < minMidPalecK1)
+                            {
+                                minMidPalecK1 = midPalec1.localEulerAngles.x;
+                            }
+                            if (midPalec2.localEulerAngles.x < minMidPalecK2)
+                            {
+                                minMidPalecK2 = midPalec2.localEulerAngles.x;
+                            }
+                            if (nnPalec1.localEulerAngles.x < minNNPalecK1)
+                            {
+                                minNNPalecK1 = nnPalec1.localEulerAngles.x;
+                            }
+                            if (mizinec1.localEulerAngles.x < minMizinecK1)
+                            {
+                                minMizinecK1 = mizinec1.localEulerAngles.x;
+                            }
+                            kulakCalibrating = true;
+
+                        }
+                    if (!kulakCalibrated && !kulakCalibrating)
+                        timer = 0;
+                    else if (kulakCalibrating && timer >= 5)
+                    {
+                        kulakCalibrated = true;
+                        calibratingGO.SetActive(false);
+                    }
                 }
             }
         }

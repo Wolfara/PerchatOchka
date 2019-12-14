@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerLvl3 : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class PlayerLvl3 : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene(0);
         if (kulakCalibrated)
         {
             Debug.Log(zahvat);
@@ -66,7 +69,7 @@ public class PlayerLvl3 : MonoBehaviour
             {
                 transform.parent = null;
                 transform.localEulerAngles = new Vector3(0, 0, 0);
-                transform.localScale = new Vector3(1, 2.5f, 1);
+                transform.localScale = new Vector3(318.4282f, 396.7401f, 90.86177f);
             }
 
         }
@@ -104,14 +107,14 @@ public class PlayerLvl3 : MonoBehaviour
                 shvatilsa = true;
                 transform.parent = liana;
                 rb.useGravity = false;
-                if (liana.localEulerAngles.z < maxRotateLiana&&!lianaIL)
+                if (liana.localEulerAngles.z < maxRotateLiana && !lianaIL)
                 {
                     liana.localEulerAngles += new Vector3(0, 0, 16) * Time.deltaTime;
                     Debug.Log(liana.localEulerAngles.z);
                     if (liana.localEulerAngles.z >= maxRotateLiana)
                         lianaIL = true;
                 }
-                else if (liana.localEulerAngles.z > minRotateLiana&&lianaIL)
+                else if (liana.localEulerAngles.z > minRotateLiana && lianaIL)
                 {
                     liana.localEulerAngles += new Vector3(0, 0, 16) * Time.deltaTime;
                     lianaIL = true;
@@ -123,9 +126,9 @@ public class PlayerLvl3 : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Bonus")
+        if (other.tag == "Next")
         {
-
+            transform.position = startPos;
         }
     }
 }

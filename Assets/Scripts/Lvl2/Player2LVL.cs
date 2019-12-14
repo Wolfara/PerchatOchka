@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player2LVL : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class Player2LVL : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            SceneManager.LoadScene(0);
         if (minBPalec >= 20 && minBPalec < 26)
             ubp.text = "20";
         if (minBPalec >= 10 && minBPalec < 20)
@@ -57,40 +60,28 @@ public class Player2LVL : MonoBehaviour
         if (gameStarted)
         {
             hp.text = lifes.ToString();
-            Vector3 forceUp = new Vector3();
             transform.position += new Vector3(speed, 0, 0) * Time.deltaTime;
             if (speed < maxSpeed)
-                speed += 1 * Time.deltaTime;
-            forceUp += transform.up * 7;
-            if (ukPalec1.localEulerAngles.x - 2 <= minUkPalecK1 && ukPalec2.localEulerAngles.x - 2 <= minUkPalecK2)
-                if (mizinec1.localEulerAngles.x - 2 <= minMizinecK2)
-                    if (midPalec1.localEulerAngles.x - 2 <= minMidPalecK1 && midPalec2.localEulerAngles.x - 2 <= minMidPalecK2)
-                        if (nnPalec1.localEulerAngles.x - 2 <= minNNPalecK1)
-                        {
-                            if (!prisel)
-                                prisel = true;
-                            else if (prisel)
-                                prisel = false;
-                        }
-            if (badMizinecR >= 20 && minMizinec > mizSdv)
-            {
-                minMizinec -= 2;
-                badMizinecR = 0;
-            }
-            if (badBPalecR == 20)
-            {
-                if (minBPalec <= 25)
-                {
-                    minBPalec += 2;
-                }
-                else if (minBPalec >= bPUB90 && minBPalec <= lock360)
-                {
-                    minBPalec += 2;
-                    if (minBPalec >= lock360)
-                        minBPalec = 2;
-                }
-                badBPalecR = 0;
-            }
+                speed += 0.25f * Time.deltaTime;
+            //if (badMizinecR >= 20 && minMizinec > mizSdv)
+            //{
+            //    minMizinec -= 2;
+            //    badMizinecR = 0;
+            //}
+            //if (badBPalecR == 20)
+            //{
+            //    if (minBPalec <= 25)
+            //    {
+            //        minBPalec += 2;
+            //    }
+            //    else if (minBPalec >= bPUB90 && minBPalec <= lock360)
+            //    {
+            //        minBPalec += 2;
+            //        if (minBPalec >= lock360)
+            //            minBPalec = 2;
+            //    }
+            //    badBPalecR = 0;
+            //}
             if (mizinec1.localEulerAngles.z >= mizSdv)
                 if (mizinec1.localEulerAngles.z >= mizSdv)
                 {
@@ -102,10 +93,10 @@ public class Player2LVL : MonoBehaviour
                         if (deltaMizinec - 12 >= 4)
                             minMizinec += 3;
                     }
-                    else if (mizinec1.localEulerAngles.z + 2 < minMizinec)
-                    {
-                        badMizinecR++;
-                    }
+                    //else if (mizinec1.localEulerAngles.z + 2 < minMizinec)
+                    //{
+                    //    badMizinecR++;
+                    //}
                 }
             if (bPalec.localEulerAngles.x < bPSdv || bPalec.localEulerAngles.x > 70)
             {
@@ -122,21 +113,21 @@ public class Player2LVL : MonoBehaviour
                         {
                             maxBPalec = bPalec.localEulerAngles.x;
                         }
-                        if (deltaBPalec <= 4 && bPalec.localEulerAngles.x < bPSdv)
-                        {
-                            minBPalec -= 3;
-                            if (minBPalec <= 0)
-                                minBPalec = lock360 - 1;
-                        }
-                        else if (deltaBPalec - 313 >= 4 && bPalec.localEulerAngles.x > bPUB90)
-                        {
-                            minBPalec -= 3;
-                        }
+                        //if (deltaBPalec <= 4 && bPalec.localEulerAngles.x < bPSdv)
+                        //{
+                        //    minBPalec -= 3;
+                        //    if (minBPalec <= 0)
+                        //        minBPalec = lock360 - 1;
+                        //}
+                        //else if (deltaBPalec - 313 >= 4 && bPalec.localEulerAngles.x > bPUB90)
+                        //{
+                        //    minBPalec -= 3;
+                        //}
                     }
-                    else
-                    {
-                        badBPalecR++;
-                    }
+                    //else
+                    //{
+                    //    badBPalecR++;
+                    //}
                 }
             }
             transform.position += new Vector3(0, 0, speedB) * Time.deltaTime;
@@ -174,18 +165,10 @@ public class Player2LVL : MonoBehaviour
                 jumpA = true;
                 jump = false;
             }
-            if (prisel)
-            {
-                GetComponent<BoxCollider>().size = new Vector3(1, 358.0507f, 1);
-            }
             if (bonus == 10)
             {
                 lifes++;
                 bonus = 0;
-            }
-            else if (!prisel)
-            {
-                GetComponent<BoxCollider>().size = new Vector3(1, 358.0507f/2, 1);
             }
             if (inRight)
             {
@@ -202,7 +185,7 @@ public class Player2LVL : MonoBehaviour
                 dead.SetActive(true);
             }
         }
-        if (mizinecCalibrated && bPalecCalibrated && kulakCalibrated && jumpCalibrated)
+        if (mizinecCalibrated && bPalecCalibrated && jumpCalibrated)
         {
             gameStarted = true;
         }
@@ -281,40 +264,10 @@ public class Player2LVL : MonoBehaviour
                 {
                     bPalecCalibrated = true;
                     timer = 0;
-                }
-            }
-        }
-        if (!kulakCalibrated && bPalecCalibrated && mizinecCalibrated && jumpCalibrated)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                kulakCalibrated = true;
-                timer = 0;
-            }
-            if (timer <= 5)
-            {
-                calibrating.text = "Калибровка кулака";
-                if (ukPalec1.localEulerAngles.x < ukK && ukPalec2.localEulerAngles.x <= uk2K && mizinec1.localEulerAngles.x < mid1K)
-                    if (midPalec1.localEulerAngles.x < midK && midPalec2.localEulerAngles.x < mid2K && nnPalec1.localEulerAngles.x < nnK)
-                    {
-                        timer += 1 * Time.deltaTime;
-                        minUkPalecK1 = ukPalec1.localEulerAngles.x;
-                        minUkPalecK2 = ukPalec2.localEulerAngles.x;
-                        minMidPalecK1 = midPalec1.localEulerAngles.x;
-                        minMidPalecK2 = midPalec2.localEulerAngles.x;
-                        minNNPalecK1 = nnPalec1.localEulerAngles.x;
-                        minMizinecK1 = mizinec1.localEulerAngles.x;
-                        kulakCalibrating = true;
-
-                    }
-                if (!kulakCalibrated && !kulakCalibrating)
-                    timer = 0;
-                else if (kulakCalibrating && timer >= 5)
-                {
-                    kulakCalibrated = true;
                     calibratingGO.SetActive(false);
                 }
             }
+
         }
     }
     public void OnTriggerEnter(Collider other)

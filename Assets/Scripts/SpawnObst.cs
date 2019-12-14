@@ -8,19 +8,14 @@ public class SpawnObst : MonoBehaviour
     public GameObject player;
     int obstaclesGroupNumber;
     public GameObject[] obstaclesGroup;
-    int delayb, delaym;
     // Start is called before the first frame update
     void Start()
     {
-        delayb = 0;
-        delaym = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        deltaBPalec = player.GetComponent<Player>().deltaBPalec;
-        deltaMizinec = player.GetComponent<Player>().deltaMizinec;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -28,32 +23,24 @@ public class SpawnObst : MonoBehaviour
         {
             if (deltaBPalec > 300)
             {
-                if (deltaBPalec - 310 < deltaMizinec - 4 && delayb <= 0)
+                if (deltaBPalec - 310 < deltaMizinec - 4)
                 {
                     obstaclesGroupNumber = 2;
-                    player.GetComponent<Player>().delayB = 3;
-                    Debug.Log("Gleb");
                 }
-                else if (deltaBPalec - 313 > deltaMizinec && delaym <= 0)
+                else if (deltaBPalec - 313 > deltaMizinec)
                 {
                     obstaclesGroupNumber = 2;
-                    player.GetComponent<Player>().delayM = 3;
-                    Debug.Log("Hleb");
                 }
             }
             else if (deltaBPalec < 300)
             {
-                if (deltaBPalec - 34 < deltaMizinec - 4 && delaym <= 0)
+                if (deltaBPalec - 34 < deltaMizinec - 4)
                 {
                     obstaclesGroupNumber = 2;
-                    player.GetComponent<Player>().delayM = 3;
-                    Debug.Log("He Gleb");
                 }
-                else if (deltaBPalec - 38 > deltaMizinec && delayb <= 0)
+                else if (deltaBPalec - 38 > deltaMizinec)
                 {
                     obstaclesGroupNumber = 2;
-                    player.GetComponent<Player>().delayB = 3;
-                    Debug.Log("He Hleb");
                 }
             }
             else
@@ -63,7 +50,6 @@ public class SpawnObst : MonoBehaviour
             Vector3 vec = new Vector3(player.transform.position.x, player.transform.position.y, 0);
             Instantiate(obstaclesGroup[obstaclesGroupNumber], vec, obstaclesGroup[obstaclesGroupNumber].transform.rotation);
             Destroy(gameObject);
-            player.GetComponent<Player>().delayM--; player.GetComponent<Player>().delayB--;
         }
     }
 }
